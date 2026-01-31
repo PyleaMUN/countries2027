@@ -60,7 +60,7 @@
             font-style: italic;
             font-size: 1.1rem;
             color: #001f3f;
-            max-width: 800px; /* Slightly wider to accommodate two lines */
+            max-width: 800px; 
             margin: 0 auto;
             font-weight: 500;
             line-height: 1.6;
@@ -161,63 +161,38 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Version 31: Updated Security Council designations (Perm vs Non-Perm)
-        const SCRIPT_VERSION = 31;
+        // Version 32: Fully synchronized with MyMUN import list
+        const SCRIPT_VERSION = 32;
 
         const listContainer = document.getElementById('country-list');
         
         const countries = [
-          // A
-          "Albania", "Algeria", "Andorra", "Angola", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
-          // B
-          "Bahrain", "Bangladesh", "Belarus", "Belgium", "Belize", "Bhutan", "Bolivia", "Bosnia and Herzegovina", 
-          "Brazil", "Bulgaria",
-          // C
-          "Cambodia", "Canada", "Chile", "China", "Colombia", "Costa Rica", "Côte d'Ivoire", "Croatia", "Cuba", "Cyprus", "Czech Republic",
-          // D
-          "Democratic Republic of the Congo", "Denmark", "Dominican Republic",
-          // E
-          "Ecuador", "Egypt", "Estonia", "Ethiopia",
-          // F
+          "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
+          "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei Darussalam", "Bulgaria", "Burkina Faso", "Burundi",
+          "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Côte d'Ivoire", "Croatia", "Cuba", "Cyprus", "Czech Republic",
+          "Democratic Republic of the Congo", "Denmark", "Djibouti", "Dominica", "Dominican Republic",
+          "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia",
           "Fiji", "Finland", "France",
-          // G
-          "Georgia", "Germany", "Ghana", "Greece", "Guatemala",
-          // H
-          "Hungary",
-          // I
+          "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
+          "Haiti", "Holy See", "Honduras", "Hungary",
           "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy",
-          // J
           "Jamaica", "Japan", "Jordan",
-          // K
-          "Kazakhstan", "Kenya", "Kuwait", "Kyrgyzstan",
-          // L
-          "Laos", "Latvia", "Lebanon", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
-          // M
-          "Malaysia", "Maldives", "Malta", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco",
-          // N
-          "Nepal", "Netherlands", "New Zealand", "Nigeria", "North Macedonia", "North Korea", "Norway",
-          // O
+          "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan",
+          "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
+          "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar",
+          "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway",
           "Oman",
-          // P
-          "Pakistan", "Panama", "Peru", "Philippines", "Poland", "Portugal",
-          // Q
+          "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal",
           "Qatar",
-          // R
           "Romania", "Russia", "Rwanda",
-          // S
-          "San Marino", "Saudi Arabia", "Senegal", "Serbia", "Singapore", "Slovakia", "Slovenia", 
-          "Somalia", "South Africa", "South Korea", "Spain", "Sri Lanka", "Sudan", "Sweden", "Switzerland",
-          // T
-          "Tanzania", "Thailand", "Tunisia", "Turkey",
-          // U
+          "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria",
+          "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
           "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan",
-          // V
-          "Venezuela", "Vietnam",
-          // Z
-          "Zimbabwe"
+          "Vanuatu", "Venezuela", "Vietnam",
+          "Yemen",
+          "Zambia", "Zimbabwe"
         ].sort();
 
-        // NATO Members (32 as of 2027 context)
         const natoMembers = [
             "Albania", "Belgium", "Bulgaria", "Canada", "Croatia", "Czech Republic", "Denmark", 
             "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Iceland", "Italy", 
@@ -226,14 +201,8 @@
             "Turkey", "United Kingdom", "United States"
         ];
 
-        // Security Council - Permanent Members
-        const scPermMembers = [
-            "China", "France", "Russia", "United Kingdom", "United States"
-        ];
+        const scPermMembers = ["China", "France", "Russia", "United Kingdom", "United States"];
 
-        // Security Council - Non-Permanent Members (Confirmed for 2027)
-        // Note: These members serve the 2026-2027 term. 
-        // The 2027-2028 class is elected in June 2026 and is not included yet.
         const scNonPermMembers = [
             "Bahrain", "Colombia", "Democratic Republic of the Congo", "Latvia", "Liberia"
         ];
@@ -241,7 +210,6 @@
         function checkVersion() {
           const savedVersion = localStorage.getItem('scriptVersion');
           if (savedVersion !== SCRIPT_VERSION.toString()) {
-            console.log('New script version detected. Clearing old data.');
             localStorage.clear();
             localStorage.setItem('scriptVersion', SCRIPT_VERSION);
           }
@@ -257,7 +225,6 @@
               availActive = saved === 'available' ? 'active' : '';
               unavailActive = saved === 'unavailable' ? 'active' : '';
             } else {
-              // Rule: Only France is unavailable.
               if (country === 'France') {
                 unavailActive = 'active';
                 localStorage.setItem(country, 'unavailable');
@@ -267,32 +234,19 @@
               }
             }
 
-            // Determine Tags
             let tags = [];
-            
-            if (natoMembers.includes(country)) {
-                tags.push("NATO");
-            }
-            
+            if (natoMembers.includes(country)) tags.push("NATO");
             if (scPermMembers.includes(country)) {
                 tags.push("Security Council permanent member");
             } else if (scNonPermMembers.includes(country)) {
                 tags.push("Security Council non-permanent member");
             }
             
-            let tagHTML = "";
-            if (tags.length > 0) {
-                tagHTML = `<span class="membership-tag">(${tags.join(", ")})</span>`;
-            }
+            let tagHTML = tags.length > 0 ? `<span class="membership-tag">(${tags.join(", ")})</span>` : "";
 
             const row = document.createElement('div');
             row.className = 'country-row';
-            
-            if (unavailActive === 'active') {
-                row.style.borderLeftColor = '#dc3545';
-            } else {
-                row.style.borderLeftColor = '#008080';
-            }
+            row.style.borderLeftColor = unavailActive === 'active' ? '#dc3545' : '#008080';
 
             row.innerHTML = `
               <span class="country-name">${country}${tagHTML}</span>
