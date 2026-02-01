@@ -162,14 +162,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Version 33: Synchronized with February school assignments
-        const SCRIPT_VERSION = 33;
+        const SCRIPT_VERSION = 34;
 
         const listContainer = document.getElementById('country-list');
 
         // Countries extracted from the school assignments CSV 
         const assignedCountries = [
-            "Russia", "Canada", "Portugal", "Denmark", "Estonia", 
-            "Cyprus", "Brazil", "Germany", "Turkey"
+            "Russia", "Canada", "Portugal", "Denmark", "Japan",
+            "New Zealand", "Cyprus", "Brazil", "Germany", "Turkey",
+            "France"
         ];
         
         const countries = [
@@ -223,23 +224,11 @@
 
         function loadCountries() {
           countries.forEach(country => {
-            const saved = localStorage.getItem(country);
-            let availActive = '';
-            let unavailActive = '';
-            
-            if (saved) {
-              availActive = saved === 'available' ? 'active' : '';
-              unavailActive = saved === 'unavailable' ? 'active' : '';
-            } else {
-              // Default logic: Mark as unavailable if in assigned list or is France
-              if (assignedCountries.includes(country) || country === 'France') {
-                unavailActive = 'active';
-                localStorage.setItem(country, 'unavailable');
-              } else {
-                availActive = 'active';
-                localStorage.setItem(country, 'available');
-              }
-            }
+            // Force availability based on the current unavailable list
+            const status = assignedCountries.includes(country) ? 'unavailable' : 'available';
+            const availActive = status === 'available' ? 'active' : '';
+            const unavailActive = status === 'unavailable' ? 'active' : '';
+            localStorage.setItem(country, status);
 
             let tags = [];
             if (natoMembers.includes(country)) tags.push("NATO");
