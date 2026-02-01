@@ -161,10 +161,16 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Version 32: Fully synchronized with MyMUN import list
-        const SCRIPT_VERSION = 32;
+        // Version 33: Synchronized with February school assignments
+        const SCRIPT_VERSION = 33;
 
         const listContainer = document.getElementById('country-list');
+
+        // Countries extracted from the school assignments CSV 
+        const assignedCountries = [
+            "Russia", "Canada", "Portugal", "Denmark", "Estonia", 
+            "Cyprus", "Brazil", "Germany", "Turkey"
+        ];
         
         const countries = [
           "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
@@ -225,7 +231,8 @@
               availActive = saved === 'available' ? 'active' : '';
               unavailActive = saved === 'unavailable' ? 'active' : '';
             } else {
-              if (country === 'France') {
+              // Default logic: Mark as unavailable if in assigned list or is France
+              if (assignedCountries.includes(country) || country === 'France') {
                 unavailActive = 'active';
                 localStorage.setItem(country, 'unavailable');
               } else {
